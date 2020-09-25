@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "769093850599",
+    "firebase_url": "https://nameplatedetector.firebaseio.com",
+    "project_id": "nameplatedetector",
+    "storage_bucket": "nameplatedetector.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769093850599:android:227ca64e9edba837f79942",
+        "android_client_info": {
+          "package_name": "com.example.detector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769093850599-ap3lts45qiecjbiknpdgpr7oa4r9u59i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.detector",
+            "certificate_hash": "3296520425a2a27c1fd3b9e890cfda23d2640626"
+          }
+        },
+        {
+          "client_id": "769093850599-cfnd1655f1jf1rr3nlurvdfeco6u3v0k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTIg0qZbTUm-I_c9k1lME4XcZVuExELzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769093850599-cfnd1655f1jf1rr3nlurvdfeco6u3v0k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
