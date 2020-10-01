@@ -427,45 +427,46 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
 
         alertDialog.show();
 
-        final String[] ResString= object;
-        final String id= ResString[0];
+        if(object == null || object[0] == null || object[1] == null){
+            Toast.makeText(HomeActivity.this, "Some error has occurred", Toast.LENGTH_SHORT).show();
+        }else{
+            final String id= object[0];
 
-        Bitmap imageBit= StringToBitMap(ResString[1]);
-
-
-        captchaImg.setImageBitmap(imageBit);
-
-//        Log.e("Captcha", inputCaptcha);
-
-        ConfirmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(captchaView.getText().toString().trim().equals("")){
-                    Toast.makeText(HomeActivity.this, "Please Verify", Toast.LENGTH_SHORT).show();
-                }else{
-                    Log.e("Res ", id + " " + ResString[1]);
-
-                    // Json Structure
-                    //{"id":"1","ans":"kbedy"}
-
-                    JSONObject jsonObject= new JSONObject();
+            Bitmap imageBit= StringToBitMap(object[1]);
+            captchaImg.setImageBitmap(imageBit);
 
 
-                    try {
-                        jsonObject.put("id", id);
-                        jsonObject.put("ans", captchaView.getText().toString().trim());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            ConfirmBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(captchaView.getText().toString().trim().equals("")){
+                        Toast.makeText(HomeActivity.this, "Please Verify", Toast.LENGTH_SHORT).show();
+                    }else{
+                       // Log.e("Res ", id + " " + ResString[1]);
+
+                        // Json Structure
+                        //{"id":"1","ans":"kbedy"}
+
+                        JSONObject jsonObject= new JSONObject();
+
+                        try {
+                            jsonObject.put("id", id);
+                            jsonObject.put("ans", captchaView.getText().toString().trim());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        String JsonString= jsonObject.toString();
+
+                        ApiGetDetail apiGetDetail= new ApiGetDetail(HomeActivity.this, JsonString);
+                        apiGetDetail.execute();
+
                     }
-
-                    String JsonString= jsonObject.toString();
-
-                    ApiGetDetail apiGetDetail= new ApiGetDetail(HomeActivity.this, JsonString);
-                    apiGetDetail.execute();
-
                 }
-            }
-        });
+            });
+
+        }
+
 
     }
 
@@ -538,7 +539,15 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
     @Override
     public void getResults(String[] object) {
 
-        if(object == null || object.length == 0 ){
+        if(object != null && object.length == 1){
+            String msg= object[0];
+
+            if(msg.equals("Invalid Car Number Plate!")){
+                Toast.makeText(HomeActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(HomeActivity.this, "Invalid Captcha", Toast.LENGTH_SHORT).show();
+            }
+        }else if(object == null || object.length == 0 ){
             Toast.makeText(HomeActivity.this, "Verification Failed", Toast.LENGTH_SHORT).show();
         }else{
             Intent intent= new Intent(HomeActivity.this, DetailsActivity.class);
