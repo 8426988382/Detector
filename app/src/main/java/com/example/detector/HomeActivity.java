@@ -134,6 +134,7 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
                 if(PlateEdit.getText().toString().trim().equals("")){
                     PlateEdit.setError("Invalid Input");
                 }else{
+                    mClickedImage.setImageResource(R.drawable.add3);
                     PlateText=  PlateEdit.getText().toString().trim();
                     ConfirmImage();
                 }

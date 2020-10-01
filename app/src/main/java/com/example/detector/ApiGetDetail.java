@@ -37,6 +37,7 @@ public class ApiGetDetail extends AsyncTask<Void, Void, String[]> {
         asyncResponse= (AsynchResponseGetDetails) contextRef.get();
         dialog = new ProgressDialog(sContext);
         dialog.setMessage("Please wait...");
+        dialog.setCancelable(false);
         dialog.setIndeterminate(true);
         dialog.show();
     }
