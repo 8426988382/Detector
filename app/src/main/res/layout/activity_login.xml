@@ -153,7 +153,21 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.47" />
 
-<!--    <ImageView-->
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="150dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView2"
+        app:srcCompat="@drawable/logo1" />
+
+    <!--    <ImageView-->
 <!--        android:id="@+id/imageView2"-->
 <!--        android:layout_width="0dp"-->
 <!--        android:layout_height="0dp"-->
