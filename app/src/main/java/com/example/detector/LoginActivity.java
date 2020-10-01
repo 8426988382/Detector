@@ -2,7 +2,6 @@ package com.example.detector;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,11 +39,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
@@ -111,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
+            public void onSuccess(final LoginResult loginResult) {
 
 
                 handlefacebooktoken(loginResult.getAccessToken());
@@ -122,10 +116,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             @Override
                             public void onCompleted(JSONObject me, GraphResponse response) {
                                 if (response.getError() != null) {
-                                    // handle errors
+                                    Toast.makeText(LoginActivity.this, "some error has occurred", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
                                     startActivity(intent);
+                                    progressDialog.dismiss();
                                     finish();
                                 }
                             }
@@ -139,12 +134,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onCancel() {
                 if(progressDialog.isShowing())
-                    progressDialog.cancel();            }
+                    progressDialog.dismiss();            }
 
             @Override
             public void onError(FacebookException exception) {
                 if(progressDialog.isShowing())
-                    progressDialog.cancel();            }
+                    progressDialog.dismiss();            }
         });
 
 
@@ -159,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 } else {
 
                     if(progressDialog.isShowing())
-                        progressDialog.cancel();
+                        progressDialog.dismiss();
                 }
             }
         };
@@ -196,7 +191,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
                 else{
                     if(progressDialog.isShowing())
-                        progressDialog.cancel();
+                        progressDialog.dismiss();
                     Toast.makeText(LoginActivity.this,"Error in login",Toast.LENGTH_SHORT)
                             .show();            }
             }
@@ -209,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         if(progressDialog.isShowing())
-            progressDialog.cancel();
+            progressDialog.dismiss();
     }
 
 
@@ -234,7 +229,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             firebaseAuthWithGoogle(credential);
         }else{
             if(progressDialog.isShowing())
-                progressDialog.cancel();
+                progressDialog.dismiss();
             // Google Sign In failed, update UI appropriately
             Log.e("TAG", "Login Unsuccessful. "+result);
             Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
@@ -252,7 +247,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                         }else{
                             if(progressDialog.isShowing())
-                                progressDialog.cancel();
+                                progressDialog.dismiss();
                             Log.w("TAG", "signInWithCredential" + task.getException().getMessage());
                             task.getException().printStackTrace();
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -293,6 +288,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             firebaseAuth.removeAuthStateListener(authStateListener);
             finish();
         }
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 
     void initialise() {
@@ -303,6 +301,4 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressDialog = new ProgressDialog(this);
 
     }
-
-
 }
