@@ -57,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:focusable="false"
+                    android:singleLine="true"
                     android:hint="Owner Name" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:focusable="false"
+                    android:singleLine="true"
                     android:hint="Registration Date" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:focusable="false"
+                    android:singleLine="true"
                     android:hint="Insurance Up to" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,6 +119,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:focusable="false"
+                    android:singleLine="true"
                     android:hint="Vehicle Class" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -137,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Fuel Type"
                     android:enabled="false"
+                    android:singleLine="true"
                     android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -155,6 +160,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Fuel Norms"
                     android:enabled="false"
+                    android:singleLine="true"
                     android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,6 +180,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Road Tex Paid Up To"
                     android:enabled="false"
+                    android:singleLine="true"
                     android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -199,6 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Fitness Up To"
+                    android:singleLine="true"
                     android:enabled="false"
                     android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -217,6 +225,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Engine Number"
+                    android:singleLine="true"
                     android:enabled="false"
                     android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -236,6 +245,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Chassis Number"
+                    android:singleLine="true"
                     android:enabled="false"
                     android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -254,6 +264,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Marker Or Model"
+                    android:singleLine="true"
                     android:enabled="false"
                     android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -271,6 +282,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="NOC Detail"
+                    android:singleLine="true"
                     android:enabled="false"
                     android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
