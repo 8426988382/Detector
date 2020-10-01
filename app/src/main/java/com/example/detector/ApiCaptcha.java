@@ -101,7 +101,9 @@ public class ApiCaptcha extends AsyncTask<Void, Void, String[]>{
         //Log.e("Post Execute", strings[0] + " " + strings[1]);
 
         if(dialog.isShowing())
-            dialog.hide();
+            dialog.dismiss();
         asyncResponse.processFinish(strings);
     }
+
+
 }

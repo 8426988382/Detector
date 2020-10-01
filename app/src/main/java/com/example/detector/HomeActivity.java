@@ -84,6 +84,7 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
     private EditText captchaView;
     private ImageView captchaImg;
     private Button ConfirmBtn;
+    private AlertDialog alertDialog;
 
 
     @Override
@@ -99,6 +100,14 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
 
         // initialise components
         initialise();
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
+
+        initPopupViewControls();
+
+        builder.setView(popupInputDialogView);
+
+        alertDialog = builder.create();
 
 
         // Sign Out the User
@@ -461,13 +470,6 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
 
         Log.e("Response Again", object[0] + " " + object[1]);
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(HomeActivity.this);
-
-        initPopupViewControls();
-
-        builder.setView(popupInputDialogView);
-
-        final AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
         final String[] ResString= object;
@@ -587,8 +589,20 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
             Intent intent= new Intent(HomeActivity.this, DetailsActivity.class);
             intent.putExtra("Data", object);
             startActivity(intent);
-            finish();
+            alertDialog.dismiss();
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        alertDialog.dismiss();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        alertDialog.dismiss();
     }
 }
