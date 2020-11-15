@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Detector"
+        android:text="Plate Hunter"
         android:textColor="#fff"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,8 +22,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -60,8 +60,6 @@
         app:hintTextColor="#fff"
         android:textColorHint="#fff"
         app:errorTextColor="#fff"
-
-        app:backgroundTint="#fff"
         app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView"
         app:layout_constraintVertical_bias="0.0">
 
@@ -72,20 +70,19 @@
             android:hint="@string/vehicle_number"
             android:padding="16dp"
             android:textColor="#fff"
-            app:backgroundTint="#fff"
             android:textColorHighlight="#fff"
-            android:textColorHint="#fff" />
+            android:textColorHint="#fff"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginStart="150dp"
         android:layout_marginTop="16dp"
         android:text="Check"
-        android:background="@drawable/g_btn"
         android:textColor="#fff"
+        android:background="@drawable/g_btn"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintHorizontal_bias="1.0"
@@ -168,7 +165,7 @@
         app:layout_constraintTop_toTopOf="@+id/clicked_img"
         app:layout_constraintVertical_bias="1.0"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="check.json"
+        app:lottie_fileName="click1.json"
         app:lottie_loop="false" />
 
     <TextView
@@ -176,7 +173,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Use Image"
+        android:text="use image"
         android:textColor="#fff"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/clicked_img"
@@ -186,11 +183,13 @@
     <Button
         android:id="@+id/button2"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:text="Continue"
+        android:background="@drawable/g_btn"
+        android:textColor="#fff"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/clicked_img"
         app:layout_constraintHorizontal_bias="1.0"

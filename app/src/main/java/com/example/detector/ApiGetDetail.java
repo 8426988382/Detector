@@ -4,15 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -41,6 +37,7 @@ public class ApiGetDetail extends AsyncTask<Void, Void, String[]> {
         asyncResponse= (AsynchResponseGetDetails) contextRef.get();
         dialog = new ProgressDialog(sContext);
         dialog.setMessage("Please wait...");
+        dialog.setCancelable(false);
         dialog.setIndeterminate(true);
         dialog.show();
     }
@@ -72,6 +69,7 @@ public class ApiGetDetail extends AsyncTask<Void, Void, String[]> {
         Response response;
         JSONObject ResObj;
         String OwnerName, RegDate, RegNumber, InsUpTo, VehicleClass, FuelType, FuelNorms, NocDetail, RoadTextPaidUTo, FitnessUpTo, EngNumber, ChasNumber, Marker;
+        String msg;
 
         try {
             response = client.newCall(request).execute();
@@ -81,6 +79,7 @@ public class ApiGetDetail extends AsyncTask<Void, Void, String[]> {
 
             ResObj= new JSONObject(Res);
 
+            // Response Structure
 //            "chassisNumber": "ME3U3S5C2KB4XXXXX",
 //                    "engineNumber": "U3S5C2KB4XXXXX",
 //                    "fitnessUpto": "10-Apr-2034",
@@ -96,12 +95,13 @@ public class ApiGetDetail extends AsyncTask<Void, Void, String[]> {
 //                    "roadTaxPaidUpto": "",
 //                    "vehicleClass": "M-CYCLE/SCOOTER (2WN)"
 
-            Log.e("Data Response", ResObj.toString());
+            Log.e("Data Response", ResObj.toString() + " " + String.valueOf(ResObj.length()));
 
             String Msg= ResObj.getString("msg");
 
-            if(Msg.length() > 100){
-                infoArr= null;
+            if(Msg.equals("Invalid Car Number Plate!") || Msg.length() > 101 || Msg.equals("Invalid Captcha!")){
+                msg= ResObj.getString("msg");
+                infoArr= new String[]{msg};
             }else{
                 ChasNumber= ResObj.getString("chassisNumber");
                 EngNumber= ResObj.getString("engineNumber");

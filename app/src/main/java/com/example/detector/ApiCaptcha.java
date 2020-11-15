@@ -39,6 +39,7 @@ public class ApiCaptcha extends AsyncTask<Void, Void, String[]>{
         dialog = new ProgressDialog(sContext);
         dialog.setMessage("Please wait...");
         dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
         dialog.show();
     }
 

@@ -74,7 +74,6 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth firebaseAuth;
 
-    private String ImagePath= "";
     private String token = "";
     private String PlateText= "";
     private Date date;
@@ -101,14 +100,12 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
         // initialise components
         initialise();
 
+
+        // Setting an alert dialog for Captcha
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
-
         initPopupViewControls();
-
         builder.setView(popupInputDialogView);
-
         alertDialog = builder.create();
-
 
         // Sign Out the User
         singOut.setOnClickListener(new View.OnClickListener() {
@@ -129,14 +126,16 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
             }
         });
 
-        // Check Using Text
+        // Check Using Text (directly check using text without any  image)
         mCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(PlateEdit.getText().toString().trim().equals("")){
-                    PlateEdit.setError("Please Enter Plate Number");
+                    PlateEdit.setError("Invalid Input");
                 }else{
+                    mClickedImage.setImageResource(R.drawable.add3);
+                    mConfirmBtn.setVisibility(View.GONE);
                     PlateText=  PlateEdit.getText().toString().trim();
                     ConfirmImage();
                 }
@@ -172,17 +171,17 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
     @SuppressLint("SimpleDateFormat")
     private void initialise(){
         util= new Util();
+        context= HomeActivity.this;
+        date = new Date();
+        df = new SimpleDateFormat("MM/dd/");
         token= util.getToken();
         mClickedImage= findViewById(R.id.clicked_img);
         singOut= findViewById(R.id.sign_out);
         mCheckBtn= findViewById(R.id.button);
-        context= HomeActivity.this;
         progressBar= findViewById(R.id.homeprogress);
         mConfirmBtn= findViewById(R.id.button2);
-        date = new Date();
-        df = new SimpleDateFormat("MM/dd/");
         // Use London time zone to format the date in
-        df.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+        df.setTimeZone(TimeZone.getTimeZone("Etc/IST"));
         PlateEdit= findViewById(R.id.DirectText);
     }
 
@@ -236,7 +235,6 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
                     try {
                         JSONArray jsonArray= response.getJSONArray("results");
                         if(jsonArray.length() > 0){
-
                             for(int i =0;i < jsonArray.length();i ++){
                                 JSONObject jsonObject= jsonArray.getJSONObject(i);
                                 PlateText= jsonObject.getString("plate");
@@ -248,48 +246,7 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
                         e.printStackTrace();
                     }
 
-//                    Log.e("Response ",response.toString()+" ");
-//                    try {
-//                        //image path
-//                        ImagePath= "https://app.platerecognizer.com/media/uploads/"+df.format(date)+response.getString("filename");
-//                        //json array or results
-//                        JSONArray Jsresults = response.getJSONArray("results");
-//                        if (Jsresults.length()>0)
-//                        {
-//                            for (int i = 0; i < Jsresults.length(); i++) {
-//                                JSONObject tabObj = Jsresults.getJSONObject(i);
-//                                Log.e("Plate Text", String.valueOf(tabObj.get("plate")));
-//                                //Log.e("Region Text", String.valueOf(tabObj.get("code")));
-//                                //Log.e("Vehicle Text", String.valueOf(tabObj.get("type")));
-//                                Picasso.get()
-//                                        .load(ImagePath)
-//                                        .into(mClickedImage, new Callback() {
-//                                            @Override
-//                                            public void onSuccess() {
-//                                               // progressBar.setVisibility(View.GONE);
-//                                                mConfirmBtn.setVisibility(View.VISIBLE);
-//
-//                                            }
-//
-//                                            @Override
-//                                            public void onError(Exception e) {
-//                                                progressBar.setVisibility(View.GONE);
-//                                                mConfirmBtn.setVisibility(View.GONE);
-//                                                mClickedImage.setImageResource(R.drawable.add3);
-//
-//                                                Toast.makeText(context, "Some Error Has Occurred", Toast.LENGTH_SHORT).show();
-//                                            }
-//
-//                                        });
-//                            }
-//
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-
                     mConfirmBtn.setVisibility(View.VISIBLE);
-
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -314,7 +271,7 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
 
     public String compressImage(String filePath) {
 
-        int resized=100;
+        int resized=60;
 
         Bitmap scaledBitmap = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -458,59 +415,60 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
     public void ConfirmImage(){
         // Perform Your Action
 
-        ApiCaptcha apiCaptcha= new ApiCaptcha(context, PlateText);
-        apiCaptcha.execute();
-
+        if(PlateText.equals("")){
+            Toast.makeText(HomeActivity.this, "Plate Number is Invalid", Toast.LENGTH_SHORT).show();
+        }else{
+            ApiCaptcha apiCaptcha= new ApiCaptcha(context, PlateText);
+            apiCaptcha.execute();
+        }
     }
 
 
     @Override
     public void processFinish(String[] object) {
 
-
-        Log.e("Response Again", object[0] + " " + object[1]);
-
         alertDialog.show();
 
-        final String[] ResString= object;
-        final String id= ResString[0];
+        if(object == null || object[0] == null || object[1] == null){
+            Toast.makeText(HomeActivity.this, "Some error has occurred", Toast.LENGTH_SHORT).show();
+        }else{
+            final String id= object[0];
 
-        Bitmap imageBit= StringToBitMap(ResString[1]);
-
-
-        captchaImg.setImageBitmap(imageBit);
-
-//        Log.e("Captcha", inputCaptcha);
-
-        ConfirmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(captchaView.getText().toString().trim().equals("")){
-                    Toast.makeText(HomeActivity.this, "Please Verify", Toast.LENGTH_SHORT).show();
-                }else{
-                    Log.e("Res ", id + " " + ResString[1]);
-
-                    // Json Structure
-                    //{"id":"1","ans":"kbedy"}
-
-                    JSONObject jsonObject= new JSONObject();
+            Bitmap imageBit= StringToBitMap(object[1]);
+            captchaImg.setImageBitmap(imageBit);
 
 
-                    try {
-                        jsonObject.put("id", id);
-                        jsonObject.put("ans", captchaView.getText().toString().trim());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            ConfirmBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(captchaView.getText().toString().trim().equals("")){
+                        Toast.makeText(HomeActivity.this, "Please Verify", Toast.LENGTH_SHORT).show();
+                    }else{
+                       // Log.e("Res ", id + " " + ResString[1]);
+
+                        // Json Structure
+                        //{"id":"1","ans":"kbedy"}
+
+                        JSONObject jsonObject= new JSONObject();
+
+                        try {
+                            jsonObject.put("id", id);
+                            jsonObject.put("ans", captchaView.getText().toString().trim());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        String JsonString= jsonObject.toString();
+
+                        ApiGetDetail apiGetDetail= new ApiGetDetail(HomeActivity.this, JsonString);
+                        apiGetDetail.execute();
+
                     }
-
-                    String JsonString= jsonObject.toString();
-
-                    ApiGetDetail apiGetDetail= new ApiGetDetail(HomeActivity.this, JsonString);
-                    apiGetDetail.execute();
-
                 }
-            }
-        });
+            });
+
+        }
+
 
     }
 
@@ -583,7 +541,15 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
     @Override
     public void getResults(String[] object) {
 
-        if(object == null || object.length == 0 ){
+        if(object != null && object.length == 1){
+            String msg= object[0];
+
+            if(msg.equals("Invalid Car Number Plate!")){
+                Toast.makeText(HomeActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(HomeActivity.this, "Invalid Captcha", Toast.LENGTH_SHORT).show();
+            }
+        }else if(object == null || object.length == 0 ){
             Toast.makeText(HomeActivity.this, "Verification Failed", Toast.LENGTH_SHORT).show();
         }else{
             Intent intent= new Intent(HomeActivity.this, DetailsActivity.class);
@@ -597,12 +563,28 @@ public class HomeActivity extends AppCompatActivity  implements IPickResult,View
     @Override
     protected void onPause() {
         super.onPause();
+        if(alertDialog.isShowing())
         alertDialog.dismiss();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if(alertDialog.isShowing())
         alertDialog.dismiss();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+
     }
 }
