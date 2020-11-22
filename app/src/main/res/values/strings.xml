@@ -3,4 +3,5 @@
     <string name="vehicle_number">Vehicle Number</string>
     <string name="facebook_app_id">640073743603435</string>
     <string name="fb_login_protocol_scheme">fb640073743603435</string>
+    <string name="plate_hunter">Plate Hunter</string>
 </resources>

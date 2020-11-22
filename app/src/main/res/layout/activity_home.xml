@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Plate Hunter"
+        android:text="@string/plate_hunter"
         android:textColor="#fff"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,6 +70,8 @@
             android:hint="@string/vehicle_number"
             android:padding="16dp"
             android:textColor="#fff"
+            android:backgroundTint="#fff"
+            android:shadowColor="#fff"
             android:textColorHighlight="#fff"
             android:textColorHint="#fff"/>
     </com.google.android.material.textfield.TextInputLayout>
